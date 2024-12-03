@@ -1,6 +1,6 @@
 <?php include 'header.php'; ?>
 <?php
-include 'flowers.php'; // Thay thế 'products.php' thành 'flowers.php'
+include 'flowers.php'; 
 
 if (isset($_POST['add'])) {
     $imgPaths = [];
@@ -16,7 +16,6 @@ if (isset($_POST['add'])) {
         }
     }
 
-    // Xác định ID lớn nhất hiện có và tăng thêm 1
     $maxId = 0;
     foreach ($flowers as $flower) {
         if (isset($flower['id']) && $flower['id'] > $maxId) {
@@ -39,24 +38,23 @@ if (isset($_POST['add'])) {
 
 
 if (isset($_POST['edit'])) {
-    $id = intval($_POST['id']); // Lấy ID cần sửa
+    $id = intval($_POST['id']); 
 
-    foreach ($flowers as $index => $flower) { // Dùng $index thay vì $key
-        if ($flower['id'] === $id) { // Tìm phần tử có ID khớp
-            $imgPaths = $flower['img']; // Giữ lại ảnh cũ
+    foreach ($flowers as $index => $flower) { 
+        if ($flower['id'] === $id) { 
+            $imgPaths = $flower['img']; 
             if (isset($_FILES['images'])) {
                 $target_dir = "img/";
-                foreach ($_FILES['images']['name'] as $key => $imageName) { // Sử dụng $key cho $_FILES
+                foreach ($_FILES['images']['name'] as $key => $imageName) {
                     if (!empty($imageName)) {
                         $target_file = $target_dir . basename($imageName);
                         if (move_uploaded_file($_FILES['images']['tmp_name'][$key], $target_file)) {
-                            $imgPaths[$key] = $target_file; // Cập nhật ảnh
+                            $imgPaths[$key] = $target_file; 
                         }
                     }
                 }
             }
 
-            // Cập nhật thông tin phần tử trong mảng
             $flowers[$index] = [
                 'id' => $id,
                 'name' => $_POST['name'],
@@ -64,7 +62,7 @@ if (isset($_POST['edit'])) {
                 'img' => $imgPaths
             ];
 
-            break; // Thoát khỏi vòng lặp sau khi tìm thấy phần tử
+            break; 
         }
     }
 
@@ -73,16 +71,16 @@ if (isset($_POST['edit'])) {
 
 
 if (isset($_POST['delete'])) {
-    $id = intval($_POST['id']); // Chuyển ID từ chuỗi thành số nguyên
+    $id = intval($_POST['id']); 
 
     foreach ($flowers as $key => $flower) {
-        if ($flower['id'] === $id) { // Tìm phần tử có ID khớp
+        if ($flower['id'] === $id) { 
             unset($flowers[$key]);
             break;
         }
     }
 
-    $flowers = array_values($flowers); // Đánh lại chỉ số mảng
+    $flowers = array_values($flowers); 
     file_put_contents('flowers.php', "<?php\n\$flowers = " . var_export($flowers, true) . ";");
 }
 
@@ -208,7 +206,6 @@ if (isset($_POST['delete'])) {
                     <div class="form-group">
                         <label>Ảnh hiện tại</label>
                         <div id="current-images">
-                            <!-- Hiển thị ảnh hiện tại ở đây -->
                         </div>
                     </div>
                     <div class="form-group">
