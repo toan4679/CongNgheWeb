@@ -24,7 +24,8 @@
 						<h2>Manage <b>Employees</b></h2>
 					</div>
 					<div class="col-sm-6">
-						<a href="#addEmployeeModal" class="btn btn-success" data-toggle="modal"><i class="material-icons">&#xE147;</i> <span>Add New Employee</span></a>
+					<a class="navbar-brand h1" href={{ route('posts.index') }}>CRUDPosts</a>
+						<a href={{ route('posts.create') }} class="btn btn-success" data-toggle="modal"><i class="material-icons">&#xE147;</i> <span>Add New Employee</span></a>
 						<a href="#deleteEmployeeModal" class="btn btn-danger" data-toggle="modal"><i class="material-icons">&#xE15C;</i> <span>Delete</span></a>						
 					</div>
                 </div>
@@ -53,13 +54,17 @@
 								<label for="checkbox1"></label>
 							</span>
 						</td>
-                        <td>{{ $post->title }}</td>
+                        <td>{{ $post->body }}</td>
                         <td>thomashardy@mail.com</td>
                         <td>{{ $post->content }}</td>
                         <td>(171) 555-2222</td>
                         <td>
-                            <a href="#editEmployeeModal" class="edit" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i></a>
-                            <a href="#deleteEmployeeModal" class="delete" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i></a>
+                            <a href="{{ route('posts.edit', $post->id) }}" class="edit" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i></a>
+                            	<form action="{{ route('posts.destroy', $post->id) }}" method="post">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit" class="btn btn-danger btnsm">Delete</button>
+                                </form>
                         </td>
                     </tr>
                     @endforeach
